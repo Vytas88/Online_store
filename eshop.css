@@ -79,14 +79,20 @@ body {
 }
 .cart-content{
   position: absolute;
-  width: 50%;
-  height: 0%;
+  width: 60%;
+  height: 100%;
   border: 1px solid black;
+  display: none;
+  background-color: white;
 
 
 }
+.cart-content h3{
+  text-align: center;
+}
 .cart-content--active{
-  height: 100%;
+  display: block;
+  overflow: auto;
 
 }
 

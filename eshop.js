@@ -6,6 +6,10 @@
       create Elements - div, image, p, button
 4.Mygtuko event listeneris i ta cart array idetu paspausto produkto objekta
 5.Susikurti funkcija ikoneles piesimui, skaiciuka kurti pagal array.length
+6.Pries pushinant i cart sudaryt if kuris patikrina ar reikia pushinti ar quantity padidinti
+7. reiketu dinamiskai siaip kad susikurtu tas langas paspaudus carta, o ne buti pasiruosus
+diva.
+reiktu vengti ciklo cikle, nebent reiketu kai kokia piramide darai.
 */
 const myAccount = document.querySelector('.my_account');
 const dropDown = document.querySelector('.dropdown-menu');
@@ -22,15 +26,50 @@ var products = [
 var cart = [];
 // var count = 0;
 var productCount = document.getElementById("product-count");
-var shoppingCart = document.querySelector(".cart");
+var exitBtn = document.querySelector("[data-closeMobile]");
+var shoppingCart = document.querySelector("[data-openMobile]");
 var cartContent = document.querySelector(".cart-content");
 
 myAccount.addEventListener('click', function() {
     dropDown.classList.toggle('dropdown-menu--active');
 });
 
-shoppingCart.addEventListener('click', function() {
-    cartContent.classList.toggle('cart-content--active');
+shoppingCart.addEventListener('click', () => {
+    document.querySelector('.cart-content').style.display = 'block';
+    //Loop through cart array
+    cart.forEach(function(element, indx) {
+    var cartProduct = document.createElement("div");
+    var cartImg = document.createElement("img");
+    var cartParagraph = document.createElement("p");
+    var cartPrice = document.createElement("p");
+    var removeButton = document.createElement("button");
+    cartImg.src = element.image;
+    cartImg.style.width = "25%";
+    cartParagraph.textContent = element.name;
+    cartPrice.textContent = element.price;
+    removeButton.textContent = "REMOVE ITEM";
+    cartProduct.appendChild(cartImg);
+    cartProduct.appendChild(cartParagraph);
+    cartProduct.appendChild(cartPrice);
+    cartProduct.appendChild(removeButton);
+
+    cartContent.appendChild(cartProduct);
+
+    //Remove item button
+    removeButton.addEventListener("click", function() {
+      var buttonClicked = event.target
+      buttonClicked.parentElement.remove();
+      // productCount.textContent = cart.length;
+      // cart.splice(indx, 1);
+      console.log('You pushed remove button')
+    })
+
+    })
+});
+
+exitBtn.addEventListener('click', () => {
+    document.querySelector('.cart-content').style.display = 'none';
+    document.querySelector('.cart-content').innerHTML = null;
 });
 
 
@@ -47,7 +86,6 @@ function displayList() {
   var paragraph = document.createElement("p");
   var price = document.createElement("p");
   var button = document.createElement("button");
-  // product.classList.add('div1');
   img.src = element.image;
   paragraph.textContent = element.name;
   price.textContent = element.price;
@@ -60,17 +98,26 @@ function displayList() {
   document.getElementById("output").appendChild(product);
 
   button.addEventListener('click', function() {
+    console.log("add to cart", button);
     cart.push(products[index]);
     console.log(cart);
     console.log(cart.length);
     productCount.textContent = cart.length;
     console.log(productCount);
 
+
     })
   })
 }
 
-
+// var deleteBtn = document.createElement("button"); //gaunasi kaip paselectintas jau
+//   deleteBtn.addEventListener("click", function() {
+//           addressList.splice(i, 1);
+//           console.log('You pushed delete button');
+//           displayList();
+//
+//     }
+//   )
 
 // div.style.width = "100px";
 // div.style.height = "100px";
