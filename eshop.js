@@ -34,6 +34,9 @@ myAccount.addEventListener('click', function() {
     dropDown.classList.toggle('dropdown-menu--active');
 });
 
+
+//OPENS SHOPPING CART WINDOW
+
 shoppingCart.addEventListener('click', () => {
     document.querySelector('.cart-content').style.display = 'block';
     //Loop through cart array
@@ -67,6 +70,8 @@ shoppingCart.addEventListener('click', () => {
     })
 });
 
+//EXIT SHOPPING CART
+
 exitBtn.addEventListener('click', () => {
     document.querySelector('.cart-content').style.display = 'none';
     document.querySelector('.cart-content').innerHTML = null;
@@ -77,6 +82,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
     displayList();
 });
+
+
+//DISPLAY PRODUCTS ON FRONT PAGE
 
 function displayList() {
   products.forEach(function(element, index) {
@@ -97,17 +105,29 @@ function displayList() {
 
   document.getElementById("output").appendChild(product);
 
-  button.addEventListener('click', function() {
-    console.log("add to cart", button);
-    cart.push(products[index]);
-    console.log(cart);
-    console.log(cart.length);
-    productCount.textContent = cart.length;
-    console.log(productCount);
+   //push products to cart on "add to cart" click
 
+  if(myFunction(product[index])) {
+    alert("Product is already added to cart")
+  } else {
+    button.addEventListener('click', function() {
+      console.log("add to cart", button);
+      cart.push(products[index]);
+      console.log(cart);
+      console.log(cart.length);
+      productCount.textContent = cart.length;
+      console.log(productCount);
 
     })
+  }
+
+
   })
+}
+
+function myFunction(product) {
+  const isPurchased = cart.some(products => products.product == product);
+  return isPurchased;
 }
 
 // var deleteBtn = document.createElement("button"); //gaunasi kaip paselectintas jau

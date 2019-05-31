@@ -82,18 +82,14 @@ body {
   width: 60%;
   height: 100%;
   border: 1px solid black;
-  display: none;
   background-color: white;
+  overflow: auto;
+  display: none;
 
 
 }
 .cart-content h3{
   text-align: center;
-}
-.cart-content--active{
-  display: block;
-  overflow: auto;
-
 }
 
 .heading h3{
