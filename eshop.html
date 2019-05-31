@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="eshop.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title></title>
+  </head>
+  <body>
+    <div class="topbar">
+      <nav class="nav-bar nav-bar--left">
+        <img src="47455af00f5e2310cae749b0d880c658_icon.png" alt="shopNsave">
+      </nav>
+      <nav class="nav-bar nav-bar--right">
+
+        <div class="search">
+          <input id="search_input" type="text" placeholder="Search products.." name="search2">
+          <button id="search_button" type="submit"><i class="fa fa-search"></i></button>
+        </div>
+
+        <ul class="account">
+          <li class="my_account">
+            <span>My Account <i class="fa fa-caret-down"></i></span>
+              <ul class="dropdown-menu">
+                <a class="dropdown-menu__item" href="#"><i class="fa fa-sign-in"></i>Log in</a>
+                <a class="dropdown-menu__item" href="#"><i class="fa fa-registered"></i>Register</a>
+                <a class="dropdown-menu__item" href="#"><i class="fa fa-cogs"></i>Settings</a>
+                <a class="dropdown-menu__item" href="#"><i class="fa fa-question-circle"></i>Help/Support</a>
+              </ul>
+          </li>
+          <li class="cart">
+            <i class="fa fa-shopping-cart"></i>
+            <span id="product-count">0</span>
+          </li>
+        </ul>
+
+        <div class="cart-content">
+        </div>
+      </nav>
+    </div>
+
+    <div class="heading">
+      <h3>TRENDING PRODUCTS</h3>
+      <hr>
+    </div>
+    <div id="output"></div>
+
+
+    <script type="text/javascript" src="eshop.js">
+
+    </script>
+  </body>
+</html>
