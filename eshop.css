@@ -85,12 +85,11 @@ body {
   background-color: white;
   overflow: auto;
   display: none;
-
-
 }
-.cart-content h3{
+
+/* .cart-content h3{
   text-align: center;
-}
+} */
 
 .heading h3{
   text-align: center;

@@ -14,20 +14,22 @@ reiktu vengti ciklo cikle, nebent reiketu kai kokia piramide darai.
 const myAccount = document.querySelector('.my_account');
 const dropDown = document.querySelector('.dropdown-menu');
 var products = [
-	{id: 01, name: 'Apple iPhone', price:'€349', image:"apple-iphone.jpg"},
-	{id: 02, name: 'Canon DSLR', price:'€250', image:"canon.jpg"},
-	{id: 03, name: 'Apple Watch', price:'€330', image:"apple-watch.jpg"},
-	{id: 04, name: 'Apple iPad', price:'€369', image:"apple-ipad.jpg"},
-  {id: 05, name: 'Sony Headphone', price:'€39', image:"sony-headphones.jpg"},
-  {id: 06, name: 'Macbook Air', price:'€649', image:"macbook-air.jpg"},
-  {id: 07, name: 'Sony Play Station', price:'€269', image:"sony-playstation.jpg"},
-  {id: 08, name: 'Bose Speaker', price:'€49', image:"bose.jpg"}
+	{id: 01, name: 'Apple iPhone', price:349, image:"apple-iphone.jpg"},
+	{id: 02, name: 'Canon DSLR', price:25, image:"canon.jpg"},
+	{id: 03, name: 'Apple Watch', price:330, image:"apple-watch.jpg"},
+	{id: 04, name: 'Apple iPad', price:369, image:"apple-ipad.jpg"},
+  {id: 05, name: 'Sony Headphone', price:39, image:"sony-headphones.jpg"},
+  {id: 06, name: 'Macbook Air', price:649, image:"macbook-air.jpg"},
+  {id: 07, name: 'Sony Play Station', price:269, image:"sony-playstation.jpg"},
+  {id: 08, name: 'Bose Speaker', price:49, image:"bose.jpg"}
 ];
 var cart = [];
 // var count = 0;
 var productCount = document.getElementById("product-count");
-var exitBtn = document.querySelector("[data-closeMobile]");
-var shoppingCart = document.querySelector("[data-openMobile]");
+// var exitBtn = document.querySelector("[data-closeMobile]");
+
+// var shoppingCart = document.querySelector("[data-openMobile]");
+var shoppingCartOpen = document.querySelector(".cart");
 var cartContent = document.querySelector(".cart-content");
 
 myAccount.addEventListener('click', function() {
@@ -36,47 +38,97 @@ myAccount.addEventListener('click', function() {
 
 
 //OPENS SHOPPING CART WINDOW
+function drawShoppingCart() {
+  document.querySelector('.cart-content').style.display = 'block';
+  document.querySelector('.cart-content').innerHTML = null;
+  var exitBtn = document.createElement("button");
+  exitBtn.classList.add("exit_button");
+  exitBtn.textContent = "X";
+  document.querySelector(".cart-content").appendChild(exitBtn);
+  //Exit shopping cart
+  exitBtn.addEventListener('click', () => {
+      document.querySelector('.cart-content').style.display = 'none';
+      document.querySelector('.cart-content').innerHTML = null;
+  });
 
-shoppingCart.addEventListener('click', () => {
-    document.querySelector('.cart-content').style.display = 'block';
-    //Loop through cart array
-    cart.forEach(function(element, indx) {
-    var cartProduct = document.createElement("div");
-    var cartImg = document.createElement("img");
-    var cartParagraph = document.createElement("p");
-    var cartPrice = document.createElement("p");
-    var removeButton = document.createElement("button");
-    cartImg.src = element.image;
-    cartImg.style.width = "25%";
-    cartParagraph.textContent = element.name;
-    cartPrice.textContent = element.price;
-    removeButton.textContent = "REMOVE ITEM";
-    cartProduct.appendChild(cartImg);
-    cartProduct.appendChild(cartParagraph);
-    cartProduct.appendChild(cartPrice);
-    cartProduct.appendChild(removeButton);
+  //tam paciam draw tik po for eachu, su reducu total amounta suskaiciuot,
+  //tai ne kiekvienos iteracijos metu, todel PO for eacho
 
-    cartContent.appendChild(cartProduct);
+  // get sum of price across all products in array
+  var totalAmount = cart.reduce(function(prev, cur) { //pirmiau apskaiciuojam kintamaji, tada galim appendinti
+    return prev + (cur.price * cur.quantity);
+  }, 0);
 
-    //Remove item button
-    removeButton.addEventListener("click", function() {
-      var buttonClicked = event.target
-      buttonClicked.parentElement.remove();
-      // productCount.textContent = cart.length;
-      // cart.splice(indx, 1);
-      console.log('You pushed remove button')
-    })
+  console.log('Total Amount:', totalAmount);
+  var totalPrice = document.createElement("span");
+  totalPrice.classList.add("total_amount");
+  totalPrice.textContent = "My total amount: €" + (totalAmount);
+  document.querySelector(".cart-content").appendChild(totalPrice);
 
-    })
-});
 
-//EXIT SHOPPING CART
+  //Loop through cart array
+  cart.forEach(function(element, indx) {
+  var cartDiv = document.createElement("div");
+  var cartProduct = document.createElement("div");
+  var cartHeading = document.createElement("h3");
+  var cartImg = document.createElement("img");
+  var cartParagraph = document.createElement("p");
+  var cartPrice = document.createElement("p");
+  var quantity = document.createElement("p");
+  var removeButton = document.createElement("button");
+  var plusQuantity = document.createElement("button");
+  var minusQuantity = document.createElement("button");
+  // var exitButton = document.createElement("button");
 
-exitBtn.addEventListener('click', () => {
-    document.querySelector('.cart-content').style.display = 'none';
-    document.querySelector('.cart-content').innerHTML = null;
-});
+  cartImg.src = element.image;
+  cartImg.style.width = "30%"
+  cartParagraph.textContent = element.name;
+  cartPrice.textContent = "€" + (element.price * element.quantity);
+  quantity.textContent = "X" + (element.quantity);
+  removeButton.textContent = "REMOVE ITEM";
+  plusQuantity.textContent = "+";
+  minusQuantity.textContent = "-";
+  // inputQuantity.textContent = cart.quantity;
+  // exitButton.textContent = "EXIT";
+  // cartDiv.appendChild(exitButton);
+  cartProduct.appendChild(cartImg);
+  cartProduct.appendChild(cartParagraph);
+  cartProduct.appendChild(cartPrice);
+  cartProduct.appendChild(quantity);
+  cartProduct.appendChild(removeButton);
+  cartProduct.appendChild(minusQuantity);
+  cartProduct.appendChild(plusQuantity);
+  cartDiv.appendChild(cartProduct);
+  cartContent.appendChild(cartDiv);
 
+  //Remove item button
+  removeButton.addEventListener("click", function() {
+    var buttonClicked = event.target
+    buttonClicked.parentElement.remove();
+    // productCount.textContent = cart.length;
+    // cart.splice(indx, 1);
+    console.log('You pushed remove button')
+  })
+
+
+  //Plus quantity
+  plusQuantity.addEventListener("click", function() {
+    cart[indx].quantity = cart[indx].quantity + 1;
+    drawShoppingCart();
+
+  })
+
+  //Minus quantity
+  minusQuantity.addEventListener("click", function() {
+    if(cart[indx].quantity > 1)
+    cart[indx].quantity = cart[indx].quantity - 1;
+    drawShoppingCart();
+
+  })
+})
+}
+
+shoppingCartOpen.addEventListener('click', drawShoppingCart); //callbackas
 
 window.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
@@ -107,27 +159,30 @@ function displayList() {
 
    //push products to cart on "add to cart" click
 
-  if(myFunction(product[index])) {
-    alert("Product is already added to cart")
-  } else {
-    button.addEventListener('click', function() {
+   button.addEventListener('click', function() {
+      const cartIndex = myFunction(element)
+      if(cartIndex > -1) { //pasitikrinam ar mum grizo koks nors skaicius daugiau nei -1
+        alert("Product is already added to cart")
+        cart[cartIndex].quantity = cart[cartIndex].quantity + 1;
+      } else {
       console.log("add to cart", button);
-      cart.push(products[index]);
+      cart.push({...products[index],quantity:1});
+
       console.log(cart);
       console.log(cart.length);
       productCount.textContent = cart.length;
       console.log(productCount);
-
+      }
     })
-  }
 
 
   })
 }
 
 function myFunction(product) {
-  const isPurchased = cart.some(products => products.product == product);
-  return isPurchased;
+  console.log(product);
+  const cartIndex = cart.findIndex(cartItem => cartItem.id == product.id); //surandam kelintam indexe preke yra
+  return cartIndex; //find index grazina -1 kai nieko neranda
 }
 
 // var deleteBtn = document.createElement("button"); //gaunasi kaip paselectintas jau
